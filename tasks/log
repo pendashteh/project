@@ -6,7 +6,7 @@ function run() {
   _app_projectdir_touch $projectdir
   if [ ! -z "$(potato_get_arg 1)" ]; then
     # log user comment
-    _app_log_format $(potato_get_args) >> $logfile
+    _app_log_format "$(potato_get_args)" >> $logfile
     git add $projectdir/
     git commit -m'Updates history for '$projectdir
   else
