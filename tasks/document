@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+function run() {
+  local projectdir=$(_app_get_projectdir $(pwd))
+  _app_projectdir_touch $projectdir
+  vim _app_document_file $projectdir
+  git add $projectdir
+  git commit -m'Updated documentation for '$projectdir
+}

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+function run() {
+  local projectdir=$(_app_get_projectdir)
+  echo $projectdir
+}

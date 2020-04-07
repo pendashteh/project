@@ -4,6 +4,9 @@
 
 potato_load_app
 
-potato_include 'inc'
+potato_include '_inc'
+
+# Ensure that required structure is in place and variables are initiated
+_app_boot
 
 potato_exec "${@}"

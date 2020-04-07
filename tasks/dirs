@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+function run() {
+  local datadir=$(_app_get_datadir)
+  cat $datadir/dirs
+}

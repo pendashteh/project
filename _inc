@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+
+function _app_get_datadir() {
+    echo "$HOME/.project/data"
+}
+
+function _app_boot() {
+  _app_ensure_datadir
+}
+
+function _app_log_format {
+  local text=$1
+  printf '%s\t%s\n' "$(date +%c)" "$text"
+}
+
+function _app_log_file {
+  local projectdir=$1
+  echo $projectdir/HISTORY.log
+}
+
+function _app_document_file {
+  local projectdir=$1
+  echo $projectdir/README.md
+}
+
+# Register the record that a projectdir has been touched
+function _app_projectdir_touch {
+  local projectdir=$1
+  local datadir=$(_app_get_datadir)
+  echo $projectdir >> $datadir/dirs
+}
+
+function _app_ensure_datadir {
+  local datadir=$(_app_get_datadir)
+  export GIT_WORK_TREE=$datadir
+  export GIT_DIR=$datadir/.git
+  [ -d $GIT_DIR ] && return
+  mkdir -p $datadir
+  pushd $datadir
+  git init
+  git commit --allow-empty -m'Genesis commit for project app.'
+  popd
+}
+
+# RUns a git command on datadir repository
+function _app_git() {
+  git $@
+}
+
+function _app_get_projectdir() {
+  _app_ensure_datadir
+  local datadir=$(_app_get_datadir)
+  local project_path=${1:-$(pwd)}
+  project_path=$(realpath $project_path)
+  echo "${datadir}${project_path}"
+}
+
+function _app_test() {
+    echo "Testing app:"
+    echo "|__ Command name: "$0
+    local -a tasks=( "$(potato_tasks_list)" )
+    echo "|__ Available tasks"
+    printf "   |__ %s\n" ${tasks[@]}
+    # This is how you put all the arguments in an array
+    local -a args=( "${POTATO_THIS_ARGS[@]}" )
+    echo "|__ Args (#${#args[@]})"
+    for index in ${!args[@]}; do
+        (( arg=index + 1 ))
+        # This is how to get the value for an arg:
+        echo "   |__ arg $index:" $(potato_get_arg $arg)
+    done
+}

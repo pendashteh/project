@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+function run() {
+  git $(potato_get_args)
+#  local projectdir=$(_app_get_projectdir)
+ # echo $projectdir
+}

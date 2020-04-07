@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+function run() {
+  local projectdir=$(_app_get_projectdir)
+  _app_projectdir_touch $projectdir
+  (cd $projectdir && $(potato_get_args))
+}

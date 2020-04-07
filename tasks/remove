@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+function run() {
+  local projectdir=$(_app_get_projectdir)
+  git rm -r $projectdir/
+  git commit -m"Removed project $project_path"
+}

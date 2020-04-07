@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+function run() {
+  local projectdir=$(_app_get_projectdir)
+  [ -d $projectdir ] && echo "This directory is already registered as a project." && exit
+
+  mkdir -p $projectdir
+  _app_log_format 'Project initiated.' >> $(_app_log_file $projectdir)
+  echo '@see HISTORY.log' >> $(_app_document_file $projectdir)
+  git add $projectdir/
+  git commit -m"Initiates project $project_path"
+  _app_projectdir_touch $projectdir
+}
