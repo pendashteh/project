@@ -19,6 +19,7 @@ function run() {
 
   [[ ! -t 0 ]] && run_pipe
   run_edit
+  run_commit
 }
 
 function run_pipe {
