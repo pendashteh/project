@@ -30,17 +30,17 @@ $ project log 'hosted on AWS'
 Adds a log to the project.
 
 ```
-$ project history
-```
-Displays all the logs with the date and time.
-
-```
 $ project document
 ```
 Opens project documentation to edit. (a single text file in MD format)
 
 ```
-$ project exec bash
+$ history | tail -n10 | project document
+```
+Adds the last 10 command run in terminal to the documentation.
+
+```
+$ project bash
 ```
 Opens sub-shell in the metadata directory.
 Some potential usecases:
@@ -48,6 +48,12 @@ Some potential usecases:
 - Manupulating the log file directly.
 - Run git command against the "project data repository" (@see 'How it works' section on this document.).
 You can run `exit` to get back.
+Example:
+```
+$ project bash
+$ cp ~/.ssh/project_rsa* .
+$ exit
+```
 
 ```
 $ project exec [command]
