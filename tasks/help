@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
 function run() {
-  echo "To create a new task, copy/paste this file and rename it to your task with the following pattern:"
-  echo $POTATO_TASK_PATH_PATTERN
-  echo "Replace __TASK__ with the name of your task."
+  _app_test
 }
