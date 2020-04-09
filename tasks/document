@@ -1,9 +1,39 @@
-#!/usr/bin/env bash
+
+<< 'COMMENT'
+
+  Usage:
+    project document
+    # Opens document for editing
+    # Also reads lines from stdin (piped) or a file
+    # e.g.:
+    ls | project document
+
+COMMENT
 
 function run() {
+  IFS=$'\n';
+  local arg=$(potato_get_arg 1)
   local projectdir=$(_app_get_projectdir $(pwd))
-  _app_projectdir_touch $projectdir
-  vim _app_document_file $projectdir
+  # _app_projectdir_touch $projectdir
+  local docfile=$(_app_document_file $projectdir)
+
+  [[ ! -t 0 ]] && run_pipe
+  run_edit
+}
+
+function run_pipe {
+  local -a lines=()
+  while IFS= read -r line; do
+    lines+=( "$line" )
+  done
+  echo "${lines[*]}" >> $docfile
+}
+
+function run_edit {
+  vim '+normal G$' $docfile </dev/tty
+}
+
+function run_commit {
   git add $projectdir
   git commit -m'Updated documentation for '$projectdir
 }
