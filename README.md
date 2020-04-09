@@ -15,6 +15,11 @@ Also, gives you visibility on the most recently accessed projects on your machin
 # Available commands
 Here are some useful available commands. For the list of all commands run `project help`
 ```
+$ project dirs
+```
+Displays a list of recently accessed projects.
+
+```
 $ project init
 ```
 Turns this directory into a 'project'
@@ -35,9 +40,26 @@ $ project document
 Opens project documentation to edit. (a single text file in MD format)
 
 ```
+$ project exec bash
+```
+Opens sub-shell in the metadata directory.
+Some potential usecases:
+- Adding extra files to project metadata. e.g. cert keys, logos, etc.
+- Manupulating the log file directly.
+- Run git command against the "project data repository" (@see 'How it works' section on this document.).
+You can run `exit` to get back.
+
+```
+$ project exec [command]
+```
+Runs a command under the metadata directory. @see above for more information.
+Example: `project exec git log`
+
+```
 $ project rm
 ```
 Removes all metadata about the project, except for the access log.
+
 
 # How it works
 All metadata about a project is kept at a corrsosponding directory under `~/.project/data`. Thid directory is maintained via git to help with ensuring data-integrity.
