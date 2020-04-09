@@ -28,6 +28,8 @@ function _app_projectdir_touch {
   local projectdir=$1
   local datadir=$(_app_get_datadir)
   echo $projectdir >> $datadir/dirs
+  git add $datadir/dirs
+  git commit -m"Logs access to $projectdir"
 }
 
 function _app_ensure_datadir {
