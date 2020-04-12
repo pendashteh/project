@@ -2,6 +2,11 @@
 
 function run() {
   local projectdir=$(_app_get_projectdir)
-  git rm -r $projectdir/
+  local pathfile=$(_app_path_file $projectdir)
+  [ ! -e $pathfile ] && echo "No project to remove. " && return
+  git rm -r $pathfile
+  # @TODO implement using potato_task_run
+  _app_log_format 'Project removed.' >> $(_app_log_file $projectdir)
+  # @TODO remove all related files too.
   git commit -m"Removed project $project_path"
 }

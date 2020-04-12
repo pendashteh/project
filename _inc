@@ -23,6 +23,11 @@ function _app_document_file {
   echo $projectdir/README.md
 }
 
+function _app_path_file {
+  local projectdir=$1
+  echo $projectdir/PROJECT_PATH
+}
+
 # Register the record that a projectdir has been touched
 function _app_projectdir_touch {
   local projectdir=$1

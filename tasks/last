@@ -3,6 +3,7 @@
 function run() {
   local index=$(potato_get_arg 1)
   local datadir=$(_app_get_datadir)
-  dir=$(cat $datadir/dirs | tail -${index:-1} | head -1)
-  cd $dir && bash
+  local projectdir=$(cat $datadir/dirs | uniq | tail -${index:-2} | head -1)
+  local pathfile=$(_app_path_file $projectdir)
+  [ -e $pathfile ] && [ -e "$(cat $pathfile)" ] && cd $(cat $pathfile) && bash || echo "Project not found at $projectdir" && return
 }
