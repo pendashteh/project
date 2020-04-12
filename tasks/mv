@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+function run() {
+  local dir_src=$(potato_get_arg 1)
+  local dir_dest=$(potato_get_arg 2)
+
+  [ ! -d "$dir_src" ] && echo "Source project was not found." && return
+
+  local projectdir_src=$(_app_get_projectdir $dir_src)
+  local projectdir_dest=$(_app_get_projectdir $dir_dest)
+  echo "Moving from $projectdir_src to $projectdir_dest"
+  (cd $dir_src && potato_run_task init $projectdir_src)
+  mv $dir_src $dir_dest && git mv $projectdir_src $projectdir_dest
+  git commit -m"Moved project from $projectdir_src to $projectdir_dest"
+}
