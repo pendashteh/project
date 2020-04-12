@@ -2,7 +2,7 @@
 
 function run() {
   local projectdir=$(_app_get_projectdir)
-  [ -d $projectdir ] && echo "This directory is already registered as a project." && exit
+  [ -d $projectdir ] && echo "This directory is already registered as a project." && return
 
   mkdir -p $projectdir
   _app_log_format 'Project initiated.' >> $(_app_log_file $projectdir)
