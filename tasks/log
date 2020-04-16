@@ -1,16 +1,42 @@
 #!/usr/bin/env bash
 
+##
+# $ project log # displays the log
+# $ project log some text to add to logs # logs a message
+# $ project log -i # Opens an interactive shell that keeps taking log messages
+##
+
 function run() {
   local projectdir=$(_app_get_projectdir $(pwd))
   local logfile=$(_app_log_file $projectdir)
   _app_projectdir_touch $projectdir
-  if [ ! -z "$(potato_get_arg 1)" ]; then
-    # log user comment
-    _app_log_format "$(potato_get_args)" >> $logfile
-    git add $projectdir/
-    git commit -m'Updates history for '$projectdir
+  local arg1=$(potato_get_arg 1)
+  if [ -z "$arg1" ]; then
+    run_display
+  elif [ "$arg1" = "-i" ]; then
+    run_interactive
   else
-    # display current log
-    less $logfile
+    run_add $arg1
   fi
+}
+
+function run_display {
+  # display current log
+  less $logfile
+}
+
+function run_add {
+  local text=$1
+  # log user comment
+  _app_log_format "$text" >> $logfile
+  git add $projectdir/
+  git commit -m'Updates history for '$projectdir
+}
+
+function run_interactive {
+  echo "Type your log message and press ENTER. When you are done press Ctrl+D to exit"
+  while IFS= read -r line; do
+    [ ! -z "$line" ] && run_add $line
+  done
+  echo "Done."
 }
