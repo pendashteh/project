@@ -53,7 +53,7 @@ function _app_get_projectdir() {
   _app_ensure_datadir
   local datadir=$(_app_get_datadir)
   local project_path=${1:-$(pwd)}
-  project_path=$(realpath $project_path)
+  project_path=$(whereis_realpath $project_path)
   echo "${datadir}${project_path}"
 }
 
