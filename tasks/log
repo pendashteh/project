@@ -10,13 +10,13 @@ function run() {
   local projectdir=$(_app_get_projectdir $(pwd))
   local logfile=$(_app_log_file $projectdir)
   _app_projectdir_touch $projectdir
-  local arg1=$(potato_get_arg 1)
+  local arg1=${1:-''}
   if [ -z "$arg1" ]; then
     run_display
   elif [ "$arg1" = "-i" ]; then
     run_interactive
   else
-    run_add $arg1
+    run_add $@
   fi
 }
 
@@ -26,7 +26,7 @@ function run_display {
 }
 
 function run_add {
-  local text=$1
+  local text=$@
   # log user comment
   _app_log_format "$text" >> $logfile
   git add $projectdir/
